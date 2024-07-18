@@ -4,7 +4,7 @@ import time
 import logging
 from config import API_URL, SCALE_THRESHOLD, CHECK_INTERVAL, LOG_FILE, TARGET_AREA_NAME, HARD_DRIVE_PATH
 
-# 配置日志记录
+# logの設定
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 def check_earthquake():
@@ -23,18 +23,18 @@ def check_earthquake():
                 for area in event['areas']:
                     if area['name'] == TARGET_AREA_NAME and area['scaleFrom'] >= SCALE_THRESHOLD:
                         logging.info(f"Earthquake detected: ID={earthquake_id}, Magnitude={magnitude}, OriginTime={origin_time}. Would stop hard drive.")
-                        print(f"Earthquake detected: ID={earthquake_id}, Magnitude={magnitude}, OriginTime={origin_time}. Would stop hard drive.")  # 打印检测到地震的信息到控制台
-                        # stop_hard_drive()  # 注释掉实际停止硬盘的调用
-                        print(f"Hard drive {HARD_DRIVE_PATH} would be stopped.")  # 打印停止硬盘信息到控制台
-                        logging.info(f"Hard drive {HARD_DRIVE_PATH} would be stopped.")  # 记录停止硬盘信息到日志
+                        print(f"Earthquake detected: ID={earthquake_id}, Magnitude={magnitude}, OriginTime={origin_time}. Would stop hard drive.")  # 地震情報をコンソールに出力
+                        # stop_hard_drive()  # HDD停止
+                        print(f"Hard drive {HARD_DRIVE_PATH} would be stopped.")  # HDDの停止情報をコンソールに出力
+                        logging.info(f"Hard drive {HARD_DRIVE_PATH} would be stopped.")  # HDDの停止情報をログに出力
                         break
     except requests.RequestException as e:
         logging.error(f"Error fetching earthquake data: {e}")
-        print(f"Error fetching earthquake data: {e}")  # 打印错误信息到控制台
+        print(f"Error fetching earthquake data: {e}")  # エラー情報をコンソールに出力
 
 if __name__ == "__main__":
     while True:
-        print("Running earthquake check loop...")  # 打印主循环运行信息到控制台
+        print("Running earthquake check loop...")  # コンソールに地震チェックループを出力
         logging.info("Running earthquake check loop...")
         check_earthquake()
         time.sleep(CHECK_INTERVAL)
